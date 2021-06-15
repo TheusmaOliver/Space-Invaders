@@ -6,17 +6,29 @@ kaboom({
 loadSprite("space-invader", "sprites/space-invader.png");
 loadKbmsprite("space-ship", "sprites/space-ship.kbmsprite");
 loadKbmsprite("wall", "sprites/wall.kbmsprite");
+
 scene("lose", (args = {}) => {
-add([
-  text(args.score),
-  origin('center'),
-  scale(10),
-  pos(width() / 2, height() / 2)
-])
+  add([
+    text(`Game Over
+Score:${args.score}`),
+    origin('center'),
+    scale(5),
+    pos(width() / 2, height() / 2)
+  ])
+});
+
+scene("winner", (args = {}) => {
+  add([
+    text(`    Winner     
+Score:${args.score}`),
+    origin('center'),
+    scale(5),
+    pos(width() / 2, height() / 2)
+  ])
 });
 scene("main", (args = {}) => {
 const MOVE_SPEED = 200
-const INVADER_SPEED = 200
+const INVADER_SPEED = 300
 let CURRENT_SPEED = INVADER_SPEED
 const LEVEL_DOWN = 200
 const TIME_LEFT = 30
@@ -38,8 +50,8 @@ addLevel([
   '!               &',
   '!               &',
 ],{
-  width: 40,
-  height: 40,
+  width: 80,
+  height: 50,
   '^' : [ sprite('space-invader'), scale(0.7), 'space-invader'],
   '!' : [ sprite('wall'), 'left-wall'],
   '&' : [ sprite('wall'), 'right-wall'],
@@ -47,7 +59,7 @@ addLevel([
 
 const player = add([
   sprite('space-ship'),
-  pos(width()/3.5, height()/1.5),
+  pos(width()/2, height()/1.2),
   origin('center')
 ])
 
@@ -88,6 +100,9 @@ collides('bullet', 'space-invader', (b,s) => {
   destroy(s)
   score.value++
   score.text=score.value
+  if (score.value === 36){
+    go('winner',{score:score.value})
+  }
 })
 
 const score = add([
@@ -116,7 +131,7 @@ timer.action(() => {
   timer.time -= dt()
   timer.text = timer.time.toFixed(2)
   if (timer.time <= 0 ){
-    go('lose', score.value)
+    go('lose', {score:score.value})
   }
 })
 
