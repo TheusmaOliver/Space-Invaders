@@ -19,7 +19,7 @@ Score:${args.score}`),
 
 scene("winner", (args = {}) => {
   add([
-    text(`    Winner     
+    text(`     Winner     
 Score:${args.score}`),
     origin('center'),
     scale(5),
@@ -118,7 +118,7 @@ const score = add([
 
 const timer = add([
   text('0'),
-  pos(90,50),
+  pos(1070,50),
   scale(2),
   layer('ui'),
   {
