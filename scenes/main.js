@@ -1,3 +1,20 @@
+kaboom({
+  ...{"fullscreen":true,"width":240,"height":240,"scale":1,"startScene":"main","version":"0.5.0","clearColor":[0,0,0,1]},
+  global: true,
+  plugins: [ peditPlugin, asepritePlugin, kbmspritePlugin ],
+});
+loadSprite("space-invader", "sprites/space-invader.png");
+loadKbmsprite("space-ship", "sprites/space-ship.kbmsprite");
+loadKbmsprite("wall", "sprites/wall.kbmsprite");
+scene("lose", (args = {}) => {
+add([
+  text(args.score),
+  origin('center'),
+  scale(10),
+  pos(width() / 2, height() / 2)
+])
+});
+scene("main", (args = {}) => {
 const MOVE_SPEED = 200
 const INVADER_SPEED = 200
 let CURRENT_SPEED = INVADER_SPEED
@@ -133,3 +150,5 @@ action('space-invader', (s) => {
     go('lose', {score: score.value})
   }
 })
+});
+start("main");
